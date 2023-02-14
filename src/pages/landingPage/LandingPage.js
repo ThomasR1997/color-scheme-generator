@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ColorDiv } from "../../components/StyledComponents";
 
 // https://www.thecolorapi.com
 // https://www.thecolorapi.com/scheme?hex=0047AB&rgb=0,71,171&hsl=215,100%,34%&cmyk=100,58,0,33&format=html&mode=analogic&count=6
 
 export const LandingPage = () => {
-  const { color, setColor } = useState();
-  const { mode, setMode } = useState();
+  const [color, setColor] = useState("000000");
+  const [mode, setMode] = useState("monochrome");
+  const [data, setData] = useState();
+
+  const fetchApi = async () => {
+    const response = await fetch(
+      `https://www.thecolorapi.com/scheme?hex=${color}&mode=${mode}&count=5`
+    );
+
+    setData(await response.json());
+  };
+
+  useEffect(() => {
+    fetchApi();
+  }, [color, mode]);
 
   const options = [
     { name: "Monochrome", value: "monochrome" },
@@ -18,19 +31,24 @@ export const LandingPage = () => {
     { name: "Triad", value: "triad" },
   ];
 
-  const handleChange = (e) => {
-    console.log(e.target.value);
-    setMode((mode) => (mode = e.target.value));
+  const clickHandler = () => {
+    fetchApi();
+    console.log(data);
   };
 
-  const clickHandler = () => {};
+  console.log(color);
+  console.log(mode);
 
   return (
     <div>
       <div>
-        <input type="color" />
+        <input
+          type="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value.slice(1))}
+        />
 
-        <select onChange={(e) => setMode((mode) => (mode = e.target.value))}>
+        <select onChange={(e) => setMode(e.target.value)}>
           {options.map((item, index) => {
             return (
               <option key={index} value={item.value}>
