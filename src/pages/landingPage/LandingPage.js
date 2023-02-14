@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ColorDiv } from "../../components/StyledComponents";
+import { ColorDiv, HexDiv, StyledDiv } from "../../components/StyledComponents";
 
 // https://www.thecolorapi.com
 // https://www.thecolorapi.com/scheme?hex=0047AB&rgb=0,71,171&hsl=215,100%,34%&cmyk=100,58,0,33&format=html&mode=analogic&count=6
@@ -39,12 +39,19 @@ export const LandingPage = () => {
   console.log(color);
   console.log(mode);
 
+  if (data) {
+    console.log(data.colors[0].hex.value);
+
+    data.colors.map((e) => {
+      return console.log(e.hex.value);
+    });
+  }
+
   return (
     <div>
       <div>
         <input
           type="color"
-          value={color}
           onChange={(e) => setColor(e.target.value.slice(1))}
         />
 
@@ -60,8 +67,22 @@ export const LandingPage = () => {
 
         <button onClick={() => clickHandler()}>Get color scheme</button>
       </div>
-      <ColorDiv></ColorDiv>
-      <div></div>
+
+      <StyledDiv>
+        {data &&
+          data.colors.map((item, index) => {
+            return (
+              <div key={index}>
+                <ColorDiv
+                  style={{ backgroundColor: `${item.hex.value}` }}
+                ></ColorDiv>
+                <HexDiv>
+                  <p>{item.hex.value}</p>
+                </HexDiv>
+              </div>
+            );
+          })}
+      </StyledDiv>
     </div>
   );
 };
