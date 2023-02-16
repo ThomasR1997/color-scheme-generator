@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { ColorDiv, HexDiv, StyledDiv } from "../../components/StyledComponents";
+import {
+  ColorDiv,
+  HexDiv,
+  OuterColorDiv,
+  StyledDiv,
+} from "../../components/StyledComponents";
 
 // https://www.thecolorapi.com
 // https://www.thecolorapi.com/scheme?hex=0047AB&rgb=0,71,171&hsl=215,100%,34%&cmyk=100,58,0,33&format=html&mode=analogic&count=6
@@ -19,7 +24,7 @@ export const LandingPage = () => {
 
   useEffect(() => {
     fetchApi();
-  }, [color, mode]);
+  }, []);
 
   const options = [
     { name: "Monochrome", value: "monochrome" },
@@ -36,16 +41,12 @@ export const LandingPage = () => {
     console.log(data);
   };
 
-  console.log(color);
-  console.log(mode);
+  const copyHex = (e) => {
+    navigator.clipboard.writeText(e);
+  };
 
-  if (data) {
-    console.log(data.colors[0].hex.value);
-
-    data.colors.map((e) => {
-      return console.log(e.hex.value);
-    });
-  }
+  // console.log(color);
+  // console.log(mode);
 
   return (
     <div>
@@ -72,14 +73,17 @@ export const LandingPage = () => {
         {data &&
           data.colors.map((item, index) => {
             return (
-              <div key={index}>
+              <OuterColorDiv
+                onClick={() => copyHex(item.hex.value)}
+                key={index}
+              >
                 <ColorDiv
                   style={{ backgroundColor: `${item.hex.value}` }}
                 ></ColorDiv>
                 <HexDiv>
                   <p>{item.hex.value}</p>
                 </HexDiv>
-              </div>
+              </OuterColorDiv>
             );
           })}
       </StyledDiv>

@@ -7,6 +7,14 @@ export const StyledDiv = styled.div`
   justify-content: center;
 `;
 
+export const OuterColorDiv = styled.div`
+  cursor: pointer;
+
+  &:active {
+    background-color: #74c69d;
+  }
+`;
+
 export const ColorDiv = styled.div`
   width: 5em;
   height: 20em;
