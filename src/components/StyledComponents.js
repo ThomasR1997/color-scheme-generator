@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FcCheckmark } from "react-icons/fc";
 
 // Centering app
 export const FlexBox = styled.div`
@@ -70,8 +71,30 @@ export const ColorDiv = styled.div`
   height: 25em;
 `;
 
+// Div for hex value
 export const HexDiv = styled.div`
   background-color: white;
   padding: 0.5em;
   font-family: "Inter" sans-serif;
 `;
+
+// Copied to clipboard notification div
+export const MessageDiv = styled.div`
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+  border-radius: 5px;
+  margin: 1em auto;
+  padding: 1em;
+  width: fit-content;
+`;
+
+// Copied message
+export const StyledMessage = styled.p`
+  margin: 0 1em;
+`;
+
+// Checkmark icon
+export const CheckedIcon = styled(FcCheckmark)``;

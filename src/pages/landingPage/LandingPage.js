@@ -1,25 +1,31 @@
 import { useEffect, useState } from "react";
 import {
   AppDiv,
+  CheckedIcon,
   ColorDiv,
   ColorSelectDiv,
   FlexBox,
   HexDiv,
+  MessageDiv,
   OuterColorDiv,
   StyledButton,
   StyledDiv,
   StyledInput,
+  StyledMessage,
   StyledSelect,
 } from "../../components/StyledComponents";
 
-// https://www.thecolorapi.com
-// https://www.thecolorapi.com/scheme?hex=0047AB&rgb=0,71,171&hsl=215,100%,34%&cmyk=100,58,0,33&format=html&mode=analogic&count=6
-
 export const LandingPage = () => {
+  // State for color
   const [color, setColor] = useState("000000");
+
+  // State for color mode
   const [mode, setMode] = useState("monochrome");
+
+  // State for color api
   const [data, setData] = useState();
 
+  // Get api
   const fetchApi = async () => {
     const response = await fetch(
       `https://www.thecolorapi.com/scheme?hex=${color}&mode=${mode}&count=5`
@@ -32,6 +38,7 @@ export const LandingPage = () => {
     fetchApi();
   }, []);
 
+  // Options for select tag
   const options = [
     { name: "Monochrome", value: "monochrome" },
     { name: "Monochrome-dark", value: "monochrome-dark" },
@@ -42,13 +49,21 @@ export const LandingPage = () => {
     { name: "Triad", value: "triad" },
   ];
 
+  // Handler for get color scheme button
   const clickHandler = () => {
     fetchApi();
-    console.log(data);
   };
 
+  // Copies hex value to clipboard
   const copyHex = (e) => {
     navigator.clipboard.writeText(e);
+
+    // Timed copy to clipboard message
+    document.getElementById("timedMsg").style.display = "flex";
+
+    setTimeout(() => {
+      document.getElementById("timedMsg").style.display = "none";
+    }, "1000");
   };
 
   return (
@@ -93,6 +108,11 @@ export const LandingPage = () => {
               );
             })}
         </StyledDiv>
+        <MessageDiv id="timedMsg">
+          <StyledMessage>Copied to clipboard!</StyledMessage>
+
+          <CheckedIcon />
+        </MessageDiv>
       </AppDiv>
     </FlexBox>
   );
