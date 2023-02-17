@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import {
+  AppDiv,
   ColorDiv,
+  ColorSelectDiv,
+  FlexBox,
   HexDiv,
   OuterColorDiv,
+  StyledButton,
   StyledDiv,
+  StyledInput,
+  StyledSelect,
 } from "../../components/StyledComponents";
 
 // https://www.thecolorapi.com
@@ -45,48 +51,49 @@ export const LandingPage = () => {
     navigator.clipboard.writeText(e);
   };
 
-  // console.log(color);
-  // console.log(mode);
-
   return (
-    <div>
-      <div>
-        <input
-          type="color"
-          onChange={(e) => setColor(e.target.value.slice(1))}
-        />
+    <FlexBox>
+      <AppDiv>
+        <ColorSelectDiv>
+          <StyledInput
+            type="color"
+            onChange={(e) => setColor(e.target.value.slice(1))}
+          />
 
-        <select onChange={(e) => setMode(e.target.value)}>
-          {options.map((item, index) => {
-            return (
-              <option key={index} value={item.value}>
-                {item.name}
-              </option>
-            );
-          })}
-        </select>
+          <StyledSelect onChange={(e) => setMode(e.target.value)}>
+            {options.map((item, index) => {
+              return (
+                <option key={index} value={item.value}>
+                  {item.name}
+                </option>
+              );
+            })}
+          </StyledSelect>
 
-        <button onClick={() => clickHandler()}>Get color scheme</button>
-      </div>
+          <StyledButton onClick={() => clickHandler()}>
+            Get color scheme
+          </StyledButton>
+        </ColorSelectDiv>
 
-      <StyledDiv>
-        {data &&
-          data.colors.map((item, index) => {
-            return (
-              <OuterColorDiv
-                onClick={() => copyHex(item.hex.value)}
-                key={index}
-              >
-                <ColorDiv
-                  style={{ backgroundColor: `${item.hex.value}` }}
-                ></ColorDiv>
-                <HexDiv>
-                  <p>{item.hex.value}</p>
-                </HexDiv>
-              </OuterColorDiv>
-            );
-          })}
-      </StyledDiv>
-    </div>
+        <StyledDiv>
+          {data &&
+            data.colors.map((item, index) => {
+              return (
+                <OuterColorDiv
+                  onClick={() => copyHex(item.hex.value)}
+                  key={index}
+                >
+                  <ColorDiv
+                    style={{ backgroundColor: `${item.hex.value}` }}
+                  ></ColorDiv>
+                  <HexDiv>
+                    <p>{item.hex.value}</p>
+                  </HexDiv>
+                </OuterColorDiv>
+              );
+            })}
+        </StyledDiv>
+      </AppDiv>
+    </FlexBox>
   );
 };
